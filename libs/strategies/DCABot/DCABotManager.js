@@ -1737,7 +1737,12 @@ async function apiCreateUpdateBot(req, res) {
 
 						const dealsActive = await shareData.DCABot.getDeals({ 'botId': botId, 'pair': pair, 'status': 0 });
 
-						let config = bot[0]['config'];
+						// Skip pairs already at their deal limit — requests for them would be rejected anyway
+						const pairDealsMax = Number(bot[0]['config']['pairDealsMax']) || 0;
+
+						if (pairDealsMax > 1 ? dealsActive.length >= pairDealsMax : dealsActive.length > 0) continue;
+
+						let config = JSON.parse(JSON.stringify(bot[0]['config']));
 						config['pair'] = pair;
 						config = await shareData.DCABot.applyConfigData({ 'bot_id': botId, 'bot_name': botName, 'config': config });
 
@@ -1849,7 +1854,12 @@ async function apiEnableDisableBot(req, res, sendResponse = true, directBotId = 
 				const pair = pairs[i];
 				const dealsActive = await shareData.DCABot.getDeals({ 'botId': botId, 'pair': pair, 'status': 0 });
 
-				let config = bot['config'];
+				// Skip pairs already at their deal limit — requests for them would be rejected anyway
+				const pairDealsMax = Number(bot['config']['pairDealsMax']) || 0;
+
+				if (pairDealsMax > 1 ? dealsActive.length >= pairDealsMax : dealsActive.length > 0) continue;
+
+				let config = JSON.parse(JSON.stringify(bot['config']));
 				config['pair'] = pair;
 				config = await shareData.DCABot.applyConfigData({ 'bot_id': botId, 'bot_name': botName, 'config': config });
 

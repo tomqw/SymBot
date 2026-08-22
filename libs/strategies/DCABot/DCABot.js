@@ -6450,7 +6450,13 @@ async function requestDealStart(config, delaySec = 0, source = '') {
 		success = true;
 		startId = Common.uuidv4();
 
-		await createStartDealTracker(startId, config.botId);
+		// Snapshot per-request values before any await — callers may reuse and
+		// mutate this config object for subsequent pairs while tasks wait in the queue
+		const pair      = config.pair;
+		const botId     = config.botId;
+		const dealCount = config.dealCount;
+
+		await createStartDealTracker(startId, botId);
 
 		// Fast pre-enqueue check — count pending starts already queued for this botId.
 		// If pending starts alone already meet or exceed pairMax there is no point
@@ -6463,7 +6469,7 @@ async function requestDealStart(config, delaySec = 0, source = '') {
 		if (pairMaxFast > 0) {
 
 			const pendingForBot = Object.values(startDealTracker)
-				.filter(entry => entry && entry.botId === config.botId)
+				.filter(entry => entry && entry.botId === botId)
 				.length;
 
 			// pendingForBot includes the current startId (added above),
@@ -6491,10 +6497,6 @@ async function requestDealStart(config, delaySec = 0, source = '') {
 
 				// Wait for any resuming deals before proceeding
 				await processResumeDealTracker();
-
-				const pair      = config.pair;
-				const botId     = config.botId;
-				const dealCount = config.dealCount;
 
 				if (!botId || !pair) {
 
