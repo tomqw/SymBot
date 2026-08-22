@@ -4789,7 +4789,23 @@ async function connectExchange(configObj) {
 
 			isNew = true;
 
-			exchange = new ccxt.pro[exchangeName]({
+			let ExchangeClient = ccxt.pro[exchangeName];
+
+			if (ExchangeClient == undefined || ExchangeClient == null) {
+
+				Common.logger(exchangeName + ' has no websocket client in ccxt, using REST client instead', true);
+
+				ExchangeClient = ccxt[exchangeName];
+			}
+
+			if (ExchangeClient == undefined || ExchangeClient == null) {
+
+				Common.logger('Exchange ' + exchangeName + ' is not supported by ccxt', true);
+
+				throw new Error('Exchange ' + exchangeName + ' is not supported by ccxt');
+			}
+
+			exchange = new ExchangeClient({
 				'timeout': (exchangeTimeoutSec * 1000),
 				'enableRateLimit': true,
 				'apiKey': config.apiKey,
