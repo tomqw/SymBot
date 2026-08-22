@@ -1,6 +1,14 @@
 
 
 
+## This is a Fork
+
+This repo is a fork of [3cqs-coder/SymBot](https://github.com/3cqs-coder/SymBot) — all credit for this great bot goes there! Below you'll find what's been tweaked here on top of upstream.
+
+### What's different here
+
+- [`fa338a3`](https://github.com/tomqw/SymBot/commit/fa338a3) — Bumped `ccxt` from `^4.5.73` → `^4.5.75`
+
 ![SymBot Logo](https://user-images.githubusercontent.com/111208586/221390681-d13b9bce-dafb-4b55-a6f1-1bc5218cd204.png)
 
 SymBot is a user friendly, self-hosted and automated DCA (Dollar Cost Averaging) cryptocurrency bot solution. Create and manage your bots entirely from your web browser or with simple built-in APIs. Best of all, your exchange credentials and keys always remain in your hands... not any other third-party.
