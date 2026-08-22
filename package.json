@@ -17,7 +17,7 @@
     "archiver": "^8.0.0",
     "body-parser": "^2.3.0",
     "bson": "^7.3.1",
-    "ccxt": "^4.5.73",
+    "ccxt": "^4.5.75",
     "check-dependencies": "^2.0.0",
     "colors": "^1.4.0",
     "compression": "^1.8.1",
