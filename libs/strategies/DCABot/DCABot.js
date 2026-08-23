@@ -4403,9 +4403,6 @@ const calculateAdjustments = async ({ exchange, pair, price, amount, orderSize, 
 		const exchangeFeeQty = (Number(orderSize) / 100) * (Number(exchangeFee));
 		const exchangeFeeAmount = (Number(amount) / 100) * (Number(exchangeFee));
 
-		const exchangeFeeQtyFiltered = await filterAmount(exchange, pair, Number(exchangeFeeQty));
-		const exchangeFeeAmountFiltered = await filterPrice(exchange, pair, Number(exchangeFeeAmount));
-
 		let orderSizeNew = await filterMinMovement((Number(orderSize) + Number(exchangeFeeQty)), minMoveAmount);
 
 		orderSizeNew = await filterAmount(exchange, pair, orderSizeNew);
@@ -4415,19 +4412,17 @@ const calculateAdjustments = async ({ exchange, pair, price, amount, orderSize, 
 		// Filtering may reduce amounts and remove decimals for some pairs
 		amountNew = await filterPrice(exchange, pair, amountNew);
 
-		amountNew = Math.round(amountNew * 100) / 100;
-
 		resObj = {
 					'order_qty': orderSizeNew,
 					'order_amount': amountNew,
 					'order_qty_orig': orderSize,
 					'order_amount_orig': amount,
-					'exchange_fee_qty': Number(exchangeFeeQtyFiltered),
-					'exchange_fee_amount': Number(exchangeFeeAmountFiltered),
+					'exchange_fee_qty': Number(exchangeFeeQty),
+					'exchange_fee_amount': Number(exchangeFeeAmount),
 					'minimum_movement_amount': minMoveAmount
 				 };
 
-		if (exchangeFee == 0 || exchangeFeeQtyFiltered > 0) {
+		if (exchangeFee == 0 || Number(exchangeFeeQty) > 0) {
 
 			finished = true;
 		}
@@ -4489,12 +4484,7 @@ const calculateSellData = async (pair, price, exchange, configObj, addFee, curre
 		addFee = 0;
 	}
 
-	exchangeFeeQtySum = await filterAmount(exchange, pair, exchangeFeeQtySum);
-
-	if (!exchangeFeeQtySum) {
-
-		exchangeFeeQtySum = 0;
-	}
+	exchangeFeeQtySum = Number(exchangeFeeQtySum) || 0;
 
 	let exchangeFeeAmountSumFinal = exchangeFeeAmountSum / 2;
 	let exchangeFeeQtySumFinal = exchangeFeeQtySum / 2;
@@ -4505,12 +4495,7 @@ const calculateSellData = async (pair, price, exchange, configObj, addFee, curre
 	exchangeFeeAmountSumFinal += exchangeFeeSubAmount;
 	exchangeFeeQtySumFinal += exchangeFeeSubQty;
 
-	exchangeFeeQtySumFinal = await filterAmount(exchange, pair, exchangeFeeQtySumFinal);
-
-	if (!exchangeFeeQtySumFinal) {
-
-		exchangeFeeQtySumFinal = 0;
-	}
+	exchangeFeeQtySumFinal = Number(exchangeFeeQtySumFinal) || 0;
 
 	const exchangeFeePercent = Number(config.exchangeFee) + Number(addFee);
 
@@ -7516,9 +7501,6 @@ async function recalculateOrders(params) {
 
 						currentOrder.qtySum = await filterAmount(params.exchange, config.pair, currentOrder.qtySum);
 						currentOrder.sum = await filterPrice(params.exchange, config.pair, currentOrder.sum);
-
-						// Round final amount
-						currentOrder.sum = Math.round(currentOrder.sum * 100) / 100;
 
 						runningQtySum = parseFloat(currentOrder.qtySum);
 						runningSum = parseFloat(currentOrder.sum);
