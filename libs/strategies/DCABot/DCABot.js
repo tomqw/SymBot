@@ -4309,14 +4309,35 @@ const processSellData = async(pair, price, dealId, exchange, config, currentOrde
 			}
 			else if (exchangeFeeQtySumDiffPercent > maxFee) {
 
+				if (shareData.appData.verboseLog) {
+
+					let msg = 'Fee-adjustment cap (' + (maxFee * 100) + '%) reached for deal ID ' + dealId + ' / Quantity: ' + dcaOrderQtySumNet + ' / Fee diff: ' + (exchangeFeeQtySumDiffPercent * 100) + '%';
+
+					Common.logger(colors.bgYellow.bold(msg));
+				}
+
 				// Max reached. Stop applying additional fees
 				finished = true;
 			}
 			else if (count >= maxTries) {
 
+				if (shareData.appData.verboseLog) {
+
+					let msg = 'Max fee-reduction tries (' + maxTries + ') reached for deal ID ' + dealId + ' / Quantity: ' + dcaOrderQtySumNet + ' / Fee diff: ' + (exchangeFeeQtySumDiffPercent * 100) + '%';
+
+					Common.logger(colors.bgRed.bold(msg));
+				}
+
 				finished = true;
 			}
 			else {
+
+				if (shareData.appData.verboseLog) {
+
+					let msg = 'Sell quantity unchanged for deal ID ' + dealId + ' / Quantity: ' + dcaOrderQtySumNet + ' / Fee diff: ' + (exchangeFeeQtySumDiffPercent * 100) + '% / Retrying (' + (count + 1) + '/' + maxTries + ')';
+
+					Common.logger(colors.bgYellow.bold(msg));
+				}
 
 				dealTracker[dealId]['update']['deal_sell_error']['count_dupes']++;
 
