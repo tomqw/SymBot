@@ -7,6 +7,7 @@ This repo is a fork of [3cqs-coder/SymBot](https://github.com/3cqs-coder/SymBot)
 
 ### What's different here
 
+- [`5ff7fe6`](https://github.com/tomqw/SymBot/commit/5ff7fe6) — Added verbose logging to `processSellData` fee-reduction retry loop
 - [`fa338a3`](https://github.com/tomqw/SymBot/commit/fa338a3) — Bumped `ccxt` from `^4.5.73` → `^4.5.75`
 - [`549d0cf`](https://github.com/tomqw/SymBot/commit/549d0cf) — Added REST client fallback so exchanges without a ccxt websocket client (e.g. `btse`) can connect
 - [`30de3ce`](https://github.com/tomqw/SymBot/commit/30de3ce) — Fixed bot not opening deals for free pairs when enabled or updated
