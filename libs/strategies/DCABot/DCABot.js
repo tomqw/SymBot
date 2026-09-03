@@ -37,7 +37,7 @@ const maxSellErrorResetSec = 300;
 const sellErrorAddFeeMultiplier = 0.25;
 
 // Max additional percentage fee that will be applied if a sell error occurs for a deal
-const sellErrorAddFeeMaxPerc = 0.05;
+const sellErrorAddFeeMaxPerc = 0.15;
 
 // Minimum shortfall percentage of requested sell quantity that triggers a partial fill retry
 // Shortfalls below this threshold are treated as dust and no retry is attempted
