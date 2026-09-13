@@ -1000,7 +1000,7 @@
 			const profitBase = deal['info']['profit_base'];
 			const profitQuoteProjected = Number(deal['info']['profit_quote_projected']);
 			const profitPerc = deal['info']['profit_percentage'];
-			const maxFunds = Math.round(deal['info']['max_funds']);
+			const maxFunds = (Number(deal['info']['max_funds']) || 0).toFixed(2);
 			const maxDeviation = deal['info']['max_deviation'];
 
 			const duration = timeDiff(new Date(), new Date(deal['date']));
