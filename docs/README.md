@@ -12,6 +12,7 @@ This repo is a fork of [3cqs-coder/SymBot](https://github.com/3cqs-coder/SymBot)
 - [`74b890a`](https://github.com/tomqw/SymBot/commit/74b890a) — Removed rounding from stored order costs and exchange fee numbers
 - [`5ff7fe6`](https://github.com/tomqw/SymBot/commit/5ff7fe6) — Added verbose logging to `processSellData` fee-reduction retry loop
 - [`4608b18`](https://github.com/tomqw/SymBot/commit/4608b18) — Raised `sellErrorAddFeeMaxPerc` from `0.05` to `0.15`, the cap on extra fees added when retrying failed sells
+- [`16f95be`](https://github.com/tomqw/SymBot/commit/16f95be) — Bumped the Docker MongoDB image from `7` to `8`
 
 ---
 
