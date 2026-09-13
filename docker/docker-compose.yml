@@ -4,7 +4,7 @@ services:
     # could pull a newer MongoDB major, which refuses to start against a data directory more than one
     # major old — stranding the mongo-data volume and breaking the "your data carries across an upgrade"
     # guarantee. Bump this deliberately (and follow MongoDB's major-version upgrade steps) when you mean to.
-    image: mongo:7
+    image: mongo:8
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
